@@ -2,6 +2,7 @@
 name: product-prd
 description: Write product requirements documents from feature ideas or brainstorm output. Use when the user says "write a PRD", "product requirements", "feature spec", or needs to formalize a product concept into a structured document.
 allowed-tools: ["Read", "Glob", "Grep", "AskUserQuestion", "Write"]
+argument-hint: "[topic or brainstorm-path]"
 ---
 
 # /product-prd — Product Requirements Document

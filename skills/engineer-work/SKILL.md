@@ -2,6 +2,8 @@
 name: engineer-work
 description: Execute implementation plans with git branching, progress tracking, quality checks, and PR creation. Use when the user says "build this", "implement this", "start working", "execute the plan", or provides a plan file to execute.
 allowed-tools: ["Read", "Write", "Edit", "Glob", "Grep", "Bash", "Task", "TodoWrite", "AskUserQuestion"]
+argument-hint: "[plan-path]"
+disable-model-invocation: true
 ---
 
 # /engineer-work — Plan Execution

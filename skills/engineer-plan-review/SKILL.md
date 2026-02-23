@@ -2,6 +2,7 @@
 name: engineer-plan-review
 description: Review implementation plans for overengineering, unnecessary complexity, and YAGNI violations. Use when the user says "review this plan", "simplify the plan", "is this plan overengineered", or after completing /engineer-plan and before /engineer-work.
 allowed-tools: ["Read", "Glob", "Grep", "Task", "Write", "Edit", "AskUserQuestion"]
+argument-hint: "[plan-path]"
 ---
 
 # /engineer-plan-review — Plan Simplicity Review

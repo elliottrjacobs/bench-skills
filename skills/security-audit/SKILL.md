@@ -2,6 +2,7 @@
 name: security-audit
 description: Deep security audit of codebase with parallel domain-focused agents. Use when the user says "security audit", "check for vulnerabilities", "security review", or before a launch/deployment. More thorough than the security reviewer in /engineer-review.
 allowed-tools: ["Read", "Glob", "Grep", "Bash", "Task", "Write"]
+argument-hint: "[files or feature]"
 ---
 
 # /security-audit — Deep Security Audit
@@ -30,7 +31,7 @@ Read `package.json`, config files, and directory structure to understand the tec
 Check for:
 - `next.config.*` → server actions, middleware, API routes, CSRF
 - `app.json` or `expo` in package.json → deep linking, secure storage, certificate pinning
-- `supabase/` directory → RLS, auth config, storage policies (suggest `/security-supabase` for deep Supabase audit)
+- `supabase/` directory → RLS, auth config, storage policies
 - `tsconfig.json` → type safety as security boundary
 - `.env*` files → environment variable handling
 
@@ -136,6 +137,6 @@ Security report presented inline. Save to `docs/audits/` if requested.
 ## Next Steps
 
 - P1 findings? Fix immediately
-- Supabase project? Run `/security-supabase` for deep Supabase audit
+- Supabase project? Ensure RLS policies and auth config are covered in findings
 - Want to track fixes? Create a plan with `/engineer-plan`
 - Fixed issues? Re-run `/security-audit` to verify

@@ -2,6 +2,7 @@
 name: engineer-plan
 description: Create structured implementation plans using parallel research agents. Use when the user says "plan this", "create a plan", "implementation plan", or after completing a tech spec. Breaks specifications into ordered, actionable tasks with effort estimates.
 allowed-tools: ["Read", "Glob", "Grep", "Task", "TodoWrite", "AskUserQuestion", "Write"]
+argument-hint: "[spec-path]"
 ---
 
 # /engineer-plan — Implementation Planning

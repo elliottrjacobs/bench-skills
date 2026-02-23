@@ -2,6 +2,7 @@
 name: product-naming
 description: Expert naming process for products, companies, and features based on David Placek's methodology. Use when the user says "name this", "brainstorm names", "naming process", or needs to find a name for a product, feature, company, or project.
 allowed-tools: ["AskUserQuestion", "Write", "WebSearch"]
+argument-hint: "[product or feature to name]"
 ---
 
 # /product-naming — Expert Naming Process
@@ -18,7 +19,7 @@ Structured naming process based on David Placek's methodology (Lexicon Branding 
 
 ### Step 1: Identify — Define the Brand Essence
 
-Ask the user to define (or help them articulate):
+If `$ARGUMENTS` provides a product or feature description, use it as the starting point. Ask the user to define (or help them articulate):
 - **What is it?** (1 sentence describing the thing to be named)
 - **Core attributes** (3-5 adjectives that describe the ideal brand feeling)
 - **Target audience** (who will use/hear this name most)

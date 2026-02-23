@@ -2,6 +2,7 @@
 name: product-tech-spec
 description: Write technical specifications bridging product requirements and implementation. Use when the user says "tech spec", "technical spec", "architecture doc", "system design", or after writing a PRD and before planning implementation.
 allowed-tools: ["Read", "Glob", "Grep", "Task", "AskUserQuestion", "Write"]
+argument-hint: "[topic or prd-path]"
 ---
 
 # /product-tech-spec — Technical Specification

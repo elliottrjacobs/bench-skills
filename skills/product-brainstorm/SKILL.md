@@ -2,6 +2,7 @@
 name: product-brainstorm
 description: Guided requirements exploration through structured dialogue. Use when the user says "brainstorm", "explore this idea", "help me think through", or when requirements are fuzzy and need clarification before writing specs.
 allowed-tools: ["Read", "Glob", "Grep", "AskUserQuestion", "Write"]
+argument-hint: "[topic]"
 ---
 
 # /product-brainstorm — Requirements Exploration
@@ -19,7 +20,7 @@ Guided dialogue to explore what to build before committing to specs. Helps clari
 
 ### Step 1: Understand the Problem
 
-Ask probing questions to understand the core need:
+If `$ARGUMENTS` provides a topic, use it as the starting point. Otherwise, ask probing questions to understand the core need:
 - **What problem are you solving?** (not what feature — the underlying problem)
 - **Who is this for?** (specific user type, not "everyone")
 - **What does success look like?** (measurable outcome)

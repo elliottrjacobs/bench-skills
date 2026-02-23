@@ -2,6 +2,7 @@
 name: engineer-review
 description: Comprehensive multi-agent code review with parallel specialist reviewers. Use when the user says "review this", "code review", "review my PR", provides a PR number or branch, or after completing a /engineer-work cycle.
 allowed-tools: ["Read", "Glob", "Grep", "Bash", "Task", "Write"]
+argument-hint: "[pr-number or files]"
 ---
 
 # /engineer-review — Multi-Agent Code Review

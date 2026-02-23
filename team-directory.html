@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bench Skills — Team Directory</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --sage: #789a60;
+  --sage-light: #e8f0e0;
+  --sage-dark: #5a7a44;
+  --bg: #fafafa;
+  --card: #ffffff;
+  --text: #18181b;
+  --text-secondary: #71717a;
+  --border: #e4e4e7;
+  --muted: #f4f4f5;
+  --code-bg: #f8f8f8;
+  --sidebar-w: 280px;
+  --radius: 12px;
+
+  --dept-discovery: #8b5cf6;
+  --dept-discovery-bg: #ede9fe;
+  --dept-product: #3b82f6;
+  --dept-product-bg: #dbeafe;
+  --dept-engineering: #22c55e;
+  --dept-engineering-bg: #dcfce7;
+  --dept-design: #ec4899;
+  --dept-design-bg: #fce7f3;
+  --dept-marketing: #f59e0b;
+  --dept-marketing-bg: #fef3c7;
+  --dept-operations: #14b8a6;
+  --dept-operations-bg: #ccfbf1;
+}
+
+[data-theme="dark"] {
+  --bg: #0f0f0f;
+  --card: #1a1a1a;
+  --text: #e4e4e7;
+  --text-secondary: #a1a1aa;
+  --border: #2a2a2a;
+  --muted: #1f1f1f;
+  --code-bg: #1e1e1e;
+  --sage-light: #2a3a20;
+
+  --dept-discovery-bg: #1a0f2e;
+  --dept-product-bg: #0f1a2e;
+  --dept-engineering-bg: #0f2a14;
+  --dept-design-bg: #2e0f1a;
+  --dept-marketing-bg: #2a1f04;
+  --dept-operations-bg: #0a2a24;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--card);
+  z-index: 1;
+}
+
+.sidebar-header h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--sage);
+  letter-spacing: -0.3px;
+}
+
+.sidebar-header p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.sidebar-nav { padding: 12px 0; flex: 1; }
+
+.nav-section {
+  padding: 6px 20px 4px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-secondary);
+  margin-top: 12px;
+}
+
+.nav-section:first-child { margin-top: 0; }
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 20px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+  background: var(--muted);
+  color: var(--text);
+}
+
+.nav-link.active {
+  color: var(--sage);
+  background: var(--sage-light);
+  border-left-color: var(--sage);
+  font-weight: 500;
+}
+
+.nav-link .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-red    { background: #ef4444; }
+.dot-amber  { background: #f59e0b; }
+.dot-green  { background: #22c55e; }
+.dot-purple { background: #8b5cf6; }
+.dot-blue   { background: #3b82f6; }
+.dot-pink   { background: #ec4899; }
+.dot-teal   { background: #14b8a6; }
+
+.sidebar-footer {
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.theme-toggle {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.theme-toggle:hover { border-color: var(--sage); }
+
+.stats-badge {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+/* ── Main Content ── */
+.main {
+  margin-left: var(--sidebar-w);
+  padding: 40px 48px 80px;
+  max-width: 1200px;
+}
+
+.hero {
+  margin-bottom: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 8px;
+}
+
+.hero p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  max-width: 600px;
+}
+
+.meta-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--muted);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.meta-pill .val {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── Sections ── */
+.section {
+  margin-bottom: 56px;
+  scroll-margin-top: 24px;
+}
+
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--sage);
+  margin-bottom: 6px;
+}
+
+.section h2 {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+}
+
+.section > p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+  max-width: 660px;
+}
+
+/* ── Info Grids ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.info-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.info-card .label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.info-card .value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--sage);
+}
+
+.info-card .desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ── Diagram Cards ── */
+.diagram-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.diagram-card .card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.diagram-card .card-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.card-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  background: var(--sage-light);
+  color: var(--sage-dark);
+}
+
+.diagram-body {
+  padding: 24px;
+  overflow: hidden;
+  position: relative;
+  cursor: grab;
+  min-height: 200px;
+}
+
+.diagram-body.is-panning { cursor: grabbing; }
+
+.diagram-body .zoom-inner {
+  transform-origin: center center;
+  transition: transform 0.15s ease;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.diagram-body .zoom-inner.no-transition { transition: none; }
+
+.diagram-body .mermaid {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ── Zoom Controls ── */
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.zoom-btn {
+  width: 28px; height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.12s;
+  line-height: 1;
+  font-family: system-ui, sans-serif;
+  user-select: none;
+}
+
+.zoom-btn:hover {
+  background: var(--sage-light);
+  border-color: var(--sage);
+  color: var(--sage-dark);
+}
+
+.zoom-btn:active { transform: scale(0.92); }
+
+.zoom-level {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  min-width: 38px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+/* ── Department Filter Bar ── */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-btn:hover {
+  border-color: var(--text-secondary);
+  color: var(--text);
+}
+
+.filter-btn.active {
+  border-color: var(--sage);
+  background: var(--sage-light);
+  color: var(--sage-dark);
+}
+
+.filter-btn[data-dept="discovery"].active { border-color: var(--dept-discovery); background: var(--dept-discovery-bg); color: var(--dept-discovery); }
+.filter-btn[data-dept="product"].active { border-color: var(--dept-product); background: var(--dept-product-bg); color: var(--dept-product); }
+.filter-btn[data-dept="engineering"].active { border-color: var(--dept-engineering); background: var(--dept-engineering-bg); color: var(--dept-engineering); }
+.filter-btn[data-dept="design"].active { border-color: var(--dept-design); background: var(--dept-design-bg); color: var(--dept-design); }
+.filter-btn[data-dept="marketing"].active { border-color: var(--dept-marketing); background: var(--dept-marketing-bg); color: var(--dept-marketing); }
+.filter-btn[data-dept="operations"].active { border-color: var(--dept-operations); background: var(--dept-operations-bg); color: var(--dept-operations); }
+
+/* ── Employee Cards Grid ── */
+.employee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.employee-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s;
+  overflow: hidden;
+  position: relative;
+}
+
+.employee-card:hover {
+  border-color: var(--text-secondary);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+
+[data-theme="dark"] .employee-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.employee-card .dept-stripe {
+  height: 4px;
+  width: 100%;
+}
+
+.employee-card .card-body {
+  padding: 20px;
+}
+
+.employee-card .employee-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.employee-card .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.employee-card .employee-info h3 {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  margin-bottom: 2px;
+}
+
+.employee-card .employee-title {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.employee-card .slash-cmd {
+  display: inline-block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  background: var(--code-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: var(--sage-dark);
+  font-weight: 600;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .employee-card .slash-cmd {
+  color: #a3c48a;
+}
+
+.employee-card .job-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.employee-card .triggers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.employee-card .trigger-tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  background: var(--muted);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.dept-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Modal / Expanded Card ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modal-card .dept-stripe {
+  height: 6px;
+  width: 100%;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-card .modal-body {
+  padding: 28px;
+}
+
+.modal-card .modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 16px;
+  z-index: 10;
+  transition: all 0.15s;
+}
+
+.modal-card .modal-close:hover {
+  background: var(--muted);
+  color: var(--text);
+}
+
+.modal-card .employee-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-card .avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+
+.modal-card .employee-info h2 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 4px;
+}
+
+.modal-card .employee-title {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.modal-card .slash-cmd {
+  display: inline-block;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: var(--code-bg);
+  padding: 3px 10px;
+  border-radius: 4px;
+  color: var(--sage-dark);
+  font-weight: 600;
+  margin-top: 6px;
+  border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .modal-card .slash-cmd {
+  color: #a3c48a;
+}
+
+.modal-section {
+  margin-top: 20px;
+}
+
+.modal-section h4 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.modal-section p {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.modal-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.modal-section ul li {
+  font-size: 13px;
+  color: var(--text);
+  padding: 4px 0;
+  padding-left: 16px;
+  position: relative;
+}
+
+.modal-section ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage);
+}
+
+.modal-handoffs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.handoff-tag {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: var(--sage-light);
+  color: var(--sage-dark);
+  font-weight: 500;
+  border: 1px solid var(--border);
+}
+
+[data-theme="dark"] .handoff-tag {
+  color: #a3c48a;
+}
+
+/* ── Mobile ── */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 12px; left: 12px;
+  z-index: 200;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; padding: 24px 16px 60px; }
+  .menu-toggle { display: block; }
+  .hero h1 { font-size: 24px; }
+  .info-grid { grid-template-columns: repeat(2, 1fr); }
+  .employee-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Tables ── */
+.table-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.table-wrap th {
+  text-align: left;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  background: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.table-wrap td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.table-wrap tr:last-child td { border-bottom: none; }
+
+.table-wrap code {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--sage-dark);
+}
+
+[data-theme="dark"] .table-wrap code {
+  color: #a3c48a;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  margin: 1px 2px;
+}
+
+.tag-red    { background: #fee2e2; color: #b91c1c; }
+.tag-green  { background: #dcfce7; color: #166534; }
+.tag-amber  { background: #fef3c7; color: #92400e; }
+.tag-blue   { background: #dbeafe; color: #1e40af; }
+.tag-purple { background: #ede9fe; color: #6d28d9; }
+
+[data-theme="dark"] .tag-red    { background: #3b1111; color: #fca5a5; }
+[data-theme="dark"] .tag-green  { background: #0f2a14; color: #86efac; }
+[data-theme="dark"] .tag-amber  { background: #2a1f04; color: #fcd34d; }
+[data-theme="dark"] .tag-blue   { background: #0f1a2e; color: #93c5fd; }
+[data-theme="dark"] .tag-purple { background: #1a0f2e; color: #c4b5fd; }
+</style>
+</head>
+<body>
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">Menu</button>
+
+<!-- ════════ SIDEBAR ════════ -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h1>Bench Skills Inc.</h1>
+    <p>Team Directory &middot; Feb 2026</p>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Overview</div>
+    <a class="nav-link active" data-target="headcount">
+      <span class="dot dot-green"></span>Headcount
+    </a>
+    <a class="nav-link" data-target="team-roster">
+      <span class="dot dot-green"></span>Team Roster
+    </a>
+
+    <div class="nav-section">Departments</div>
+    <a class="nav-link" data-target="dept-discovery">
+      <span class="dot dot-purple"></span>Discovery &amp; Strategy
+    </a>
+    <a class="nav-link" data-target="dept-product">
+      <span class="dot dot-blue"></span>Product
+    </a>
+    <a class="nav-link" data-target="dept-engineering">
+      <span class="dot dot-green"></span>Engineering
+    </a>
+    <a class="nav-link" data-target="dept-design">
+      <span class="dot dot-pink"></span>Design
+    </a>
+    <a class="nav-link" data-target="dept-marketing">
+      <span class="dot dot-amber"></span>Marketing &amp; Sales
+    </a>
+    <a class="nav-link" data-target="dept-operations">
+      <span class="dot dot-teal"></span>Operations
+    </a>
+
+    <div class="nav-section">Workflows</div>
+    <a class="nav-link" data-target="workflow-pipeline">
+      <span class="dot dot-green"></span>The Pipeline
+    </a>
+    <a class="nav-link" data-target="workflow-handoffs">
+      <span class="dot dot-blue"></span>Handoff Matrix
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="stats-badge">25 employees</span>
+    <button class="theme-toggle" onclick="toggleTheme()">Toggle Theme</button>
+  </div>
+</aside>
+
+<!-- ════════ MAIN CONTENT ════════ -->
+<main class="main">
+
+<!-- Hero -->
+<div class="hero">
+  <h1>Meet the Team</h1>
+  <p>Your AI workforce, organized by department. Each employee specializes in a specific discipline — tap their card to see their full job description, when to call them, and who they hand off to.</p>
+  <div class="meta-row">
+    <span class="meta-pill">Headcount <span class="val">25</span></span>
+    <span class="meta-pill">Departments <span class="val">6</span></span>
+    <span class="meta-pill">Slash Commands <span class="val">25</span></span>
+    <span class="meta-pill">Status <span class="val">All Active</span></span>
+  </div>
+</div>
+
+<!-- Headcount Stats -->
+<section class="section" id="headcount">
+  <div class="section-label">Overview</div>
+  <h2>Headcount by Department</h2>
+  <p>How the team is distributed across the organization.</p>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="label">Discovery &amp; Strategy</div>
+      <div class="value" style="color: var(--dept-discovery)">5</div>
+      <div class="desc">Research, positioning, pricing, GTM, AI advisor</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Product</div>
+      <div class="value" style="color: var(--dept-product)">4</div>
+      <div class="desc">Brainstorm, naming, PRD, tech spec</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Engineering</div>
+      <div class="value" style="color: var(--dept-engineering)">5</div>
+      <div class="desc">Plan, review, build, audit</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Design</div>
+      <div class="value" style="color: var(--dept-design)">3</div>
+      <div class="desc">Brand, direction, systems</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Marketing &amp; Sales</div>
+      <div class="value" style="color: var(--dept-marketing)">4</div>
+      <div class="desc">Content, landing pages, pitches, proposals</div>
+    </div>
+    <div class="info-card">
+      <div class="label">Operations</div>
+      <div class="value" style="color: var(--dept-operations)">4</div>
+      <div class="desc">Onboarding, skills, knowledge, visualization</div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Roster -->
+<section class="section" id="team-roster">
+  <div class="section-label">Directory</div>
+  <h2>Full Team Roster</h2>
+  <p>Click any employee card to see their full profile. Filter by department below.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-dept="all" onclick="filterDept('all')">All Teams</button>
+    <button class="filter-btn" data-dept="discovery" onclick="filterDept('discovery')">Discovery</button>
+    <button class="filter-btn" data-dept="product" onclick="filterDept('product')">Product</button>
+    <button class="filter-btn" data-dept="engineering" onclick="filterDept('engineering')">Engineering</button>
+    <button class="filter-btn" data-dept="design" onclick="filterDept('design')">Design</button>
+    <button class="filter-btn" data-dept="marketing" onclick="filterDept('marketing')">Marketing</button>
+    <button class="filter-btn" data-dept="operations" onclick="filterDept('operations')">Operations</button>
+  </div>
+
+  <div class="employee-grid" id="employeeGrid">
+    <!-- Cards will be injected by JS -->
+  </div>
+</section>
+
+<!-- Department Sections for sidebar scroll targets -->
+<section class="section" id="dept-discovery">
+  <div class="section-label">Department</div>
+  <h2 style="color: var(--dept-discovery)">Discovery &amp; Strategy</h2>
+  <p>The intelligence wing. They figure out who your customer is, how to position your product, what to charge, and how to reach the market. Start here when you're building something new.</p>
+</section>
+
+<section class="section" id="dept-product">
+  <div class="section-label">Department</div>
+  <h2 style="color: var(--dept-product)">Product</h2>
+  <p>From fuzzy idea to formalized spec. They brainstorm, name things, write PRDs, and produce technical specifications that engineering can execute against.</p>
+</section>
+
+<section class="section" id="dept-engineering">
+  <div class="section-label">Department</div>
+  <h2 style="color: var(--dept-engineering)">Engineering</h2>
+  <p>The builders. They plan implementations, execute code, review quality, and audit security. They turn specs into shipped software.</p>
+</section>
+
+<section class="section" id="dept-design">
+  <div class="section-label">Department</div>
+  <h2 style="color: var(--dept-design)">Design</h2>
+  <p>Brand strategy, creative direction, and design systems. They set the visual and strategic tone, then systematize it into reusable components.</p>
+</section>
+
+<section class="section" id="dept-marketing">
+  <div class="section-label">Department</div>
+  <h2 style="color: var(--dept-marketing)">Marketing &amp; Sales</h2>
+  <p>Revenue generation. They write content, build landing pages, craft sales pitches, and close deals with proposals. The front line with customers.</p>
+</section>
+
+<section class="section" id="dept-operations">
+  <div class="section-label">Department</div>
+  <h2 style="color: var(--dept-operations)">Operations</h2>
+  <p>The team that keeps the team running. Onboards new projects, discovers new capabilities, documents institutional knowledge, and makes everything visible.</p>
+</section>
+
+<!-- Workflow Pipeline -->
+<section class="section" id="workflow-pipeline">
+  <div class="section-label">Workflows</div>
+  <h2>The Pipeline</h2>
+  <p>How work flows through the organization — from early-stage discovery through to shipped product and ongoing sales.</p>
+
+  <div class="diagram-card">
+    <div class="card-header">
+      <h3>Idea to Ship — The Full Pipeline</h3>
+      <span class="card-badge">Flowchart</span>
+    </div>
+    <div class="diagram-body">
+      <pre class="mermaid">
+flowchart LR
+    subgraph DISC["Discovery & Strategy"]
+        direction TB
+        A["Client Discovery<br/><b>/client-discovery</b>"]
+        B["Positioning<br/><b>/positioning</b>"]
+        C["Pricing<br/><b>/pricing-packaging</b>"]
+        D["GTM Strategy<br/><b>/gtm-strategist</b>"]
+        E["AI Advisor<br/><b>/ai-product-advisor</b>"]
+        A --> B --> C --> D
+        E -.-> A
+        E -.-> B
+    end
+
+    subgraph PROD["Product"]
+        direction TB
+        F["Brainstorm<br/><b>/product-brainstorm</b>"]
+        G["Naming<br/><b>/product-naming</b>"]
+        H["PRD<br/><b>/product-prd</b>"]
+        I["Tech Spec<br/><b>/product-tech-spec</b>"]
+        F --> H
+        G -.-> H
+        H --> I
+    end
+
+    subgraph ENG["Engineering"]
+        direction TB
+        J["Plan<br/><b>/engineer-plan</b>"]
+        K["Plan Review<br/><b>/engineer-plan-review</b>"]
+        L["Build<br/><b>/engineer-work</b>"]
+        M["Code Review<br/><b>/engineer-review</b>"]
+        N["Security Audit<br/><b>/security-audit</b>"]
+        J --> K --> L --> M
+        N -.-> M
+    end
+
+    subgraph MKT["Marketing & Sales"]
+        direction TB
+        O["Content<br/><b>/content-writer</b>"]
+        P["Landing Page<br/><b>/landing-page</b>"]
+        Q["Sales Pitch<br/><b>/sales-pitch</b>"]
+        R["Proposals<br/><b>/proposal-writer</b>"]
+        O --> P
+        Q --> R
+    end
+
+    DISC --> PROD
+    PROD --> ENG
+    D --> MKT
+    ENG --> MKT
+
+    style DISC fill:#ede9fe,stroke:#8b5cf6,color:#000
+    style PROD fill:#dbeafe,stroke:#3b82f6,color:#000
+    style ENG fill:#dcfce7,stroke:#22c55e,color:#000
+    style MKT fill:#fef3c7,stroke:#f59e0b,color:#000
+      </pre>
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <div class="card-header">
+      <h3>Design Track — Parallel Workstream</h3>
+      <span class="card-badge">Flowchart</span>
+    </div>
+    <div class="diagram-body">
+      <pre class="mermaid">
+flowchart LR
+    A["Brand Strategy<br/><b>/studio-brand-strategist</b>"] --> B["Design Direction<br/><b>/design-lead</b>"]
+    B --> C["Design System<br/><b>/design-system</b>"]
+    B --> D["Landing Page<br/><b>/landing-page</b>"]
+    C --> E["Engineering<br/><b>/engineer-work</b>"]
+    D --> F["Content<br/><b>/content-writer</b>"]
+
+    style A fill:#fce7f3,stroke:#ec4899,color:#000
+    style B fill:#fce7f3,stroke:#ec4899,color:#000
+    style C fill:#fce7f3,stroke:#ec4899,color:#000
+    style D fill:#fef3c7,stroke:#f59e0b,color:#000
+    style E fill:#dcfce7,stroke:#22c55e,color:#000
+    style F fill:#fef3c7,stroke:#f59e0b,color:#000
+      </pre>
+    </div>
+  </div>
+
+  <div class="diagram-card">
+    <div class="card-header">
+      <h3>Operations — The Support Backbone</h3>
+      <span class="card-badge">Flowchart</span>
+    </div>
+    <div class="diagram-body">
+      <pre class="mermaid">
+flowchart TD
+    A["New Project Arrives"] --> B["Onboarding<br/><b>/onboarding</b>"]
+    B --> C{{"What do you need?"}}
+    C --> D["Discovery Track"]
+    C --> E["Product Track"]
+    C --> F["Design Track"]
+
+    G["Work Completed"] --> H["Knowledge Compound<br/><b>/knowledge-compound</b>"]
+    H --> I["Searchable<br/>Knowledge Base"]
+
+    J["Need a new capability?"] --> K["Find Skills<br/><b>/find-skills</b>"]
+    K --> L["Bench New Skill<br/><b>/bench-new-skill</b>"]
+    L --> M["New Employee<br/>Joins the Team"]
+
+    N["Need to explain<br/>something?"] --> O["Visualize<br/><b>/visualize</b>"]
+    O --> P["Interactive<br/>Diagrams"]
+
+    style B fill:#ccfbf1,stroke:#14b8a6,color:#000
+    style H fill:#ccfbf1,stroke:#14b8a6,color:#000
+    style K fill:#ccfbf1,stroke:#14b8a6,color:#000
+    style L fill:#ccfbf1,stroke:#14b8a6,color:#000
+    style O fill:#ccfbf1,stroke:#14b8a6,color:#000
+    style C fill:#fef3c7,stroke:#f59e0b,color:#000
+      </pre>
+    </div>
+  </div>
+</section>
+
+<!-- Handoff Matrix -->
+<section class="section" id="workflow-handoffs">
+  <div class="section-label">Workflows</div>
+  <h2>Handoff Matrix</h2>
+  <p>Who feeds work to whom. The typical chain of command for getting things done.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>From</th>
+          <th>To</th>
+          <th>What Gets Passed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>/onboarding</code></td>
+          <td><code>/client-discovery</code></td>
+          <td>Project context file (<code>projects/&lt;name&gt;/onboarding.md</code>)</td>
+        </tr>
+        <tr>
+          <td><code>/client-discovery</code></td>
+          <td><code>/positioning</code></td>
+          <td>JTBD analysis, opportunity map, customer segments</td>
+        </tr>
+        <tr>
+          <td><code>/positioning</code></td>
+          <td><code>/pricing-packaging</code></td>
+          <td>Competitive frame, value proposition, category</td>
+        </tr>
+        <tr>
+          <td><code>/positioning</code></td>
+          <td><code>/studio-brand-strategist</code></td>
+          <td>Strategic narrative, differentiation, positioning statement</td>
+        </tr>
+        <tr>
+          <td><code>/pricing-packaging</code></td>
+          <td><code>/gtm-strategist</code></td>
+          <td>Pricing model, packaging tiers, monetization strategy</td>
+        </tr>
+        <tr>
+          <td><code>/product-brainstorm</code></td>
+          <td><code>/product-prd</code></td>
+          <td>Explored requirements, user stories, constraints</td>
+        </tr>
+        <tr>
+          <td><code>/product-prd</code></td>
+          <td><code>/product-tech-spec</code></td>
+          <td>Product requirements document</td>
+        </tr>
+        <tr>
+          <td><code>/product-tech-spec</code></td>
+          <td><code>/engineer-plan</code></td>
+          <td>Technical specification with architecture decisions</td>
+        </tr>
+        <tr>
+          <td><code>/engineer-plan</code></td>
+          <td><code>/engineer-plan-review</code></td>
+          <td>Implementation plan with task breakdown</td>
+        </tr>
+        <tr>
+          <td><code>/engineer-plan-review</code></td>
+          <td><code>/engineer-work</code></td>
+          <td>Simplified, approved plan</td>
+        </tr>
+        <tr>
+          <td><code>/engineer-work</code></td>
+          <td><code>/engineer-review</code></td>
+          <td>Branch with implemented code, PR</td>
+        </tr>
+        <tr>
+          <td><code>/engineer-review</code></td>
+          <td><code>/security-audit</code></td>
+          <td>Reviewed code for deep security analysis</td>
+        </tr>
+        <tr>
+          <td><code>/studio-brand-strategist</code></td>
+          <td><code>/design-lead</code></td>
+          <td>Brand voice, messaging framework, visual direction</td>
+        </tr>
+        <tr>
+          <td><code>/design-lead</code></td>
+          <td><code>/design-system</code></td>
+          <td>Design tenets, direction, quality standards</td>
+        </tr>
+        <tr>
+          <td><code>/gtm-strategist</code></td>
+          <td><code>/content-writer</code></td>
+          <td>Channel strategy, messaging, launch sequence</td>
+        </tr>
+        <tr>
+          <td><code>/gtm-strategist</code></td>
+          <td><code>/sales-pitch</code></td>
+          <td>Target segments, value props, competitive positioning</td>
+        </tr>
+        <tr>
+          <td><code>/content-writer</code></td>
+          <td><code>/landing-page</code></td>
+          <td>Marketing copy, value propositions, CTAs</td>
+        </tr>
+        <tr>
+          <td><code>/sales-pitch</code></td>
+          <td><code>/proposal-writer</code></td>
+          <td>Sales narrative, objection handling, pricing</td>
+        </tr>
+        <tr>
+          <td>Any skill</td>
+          <td><code>/knowledge-compound</code></td>
+          <td>Solutions, decisions, and learnings to document</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<!-- ════════ MODAL ════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-card" id="modalCard">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<script>
+// ── Employee Data ──
+const employees = [
+  // Discovery & Strategy
+  {
+    id: 'client-discovery',
+    name: 'Clara Fieldwork',
+    title: 'Customer Research Lead',
+    cmd: '/client-discovery',
+    dept: 'discovery',
+    icon: '🔍',
+    desc: 'Runs structured customer and market discovery using Jobs to Be Done, Opportunity Solution Trees, and PMF measurement frameworks.',
+    fullDesc: 'Clara digs deep into who your customer really is. She conducts JTBD analysis, maps opportunity solution trees, measures product-market fit, and synthesizes everything into actionable customer insights. She\'s the first person to talk to before you build anything.',
+    triggers: ['customer research', 'discovery', 'JTBD', 'understand the customer', 'who is our customer'],
+    handoffsFrom: ['/onboarding'],
+    handoffsTo: ['/positioning', '/product-brainstorm']
+  },
+  {
+    id: 'positioning',
+    name: 'Marco Narrative',
+    title: 'Strategic Positioning Director',
+    cmd: '/positioning',
+    dept: 'discovery',
+    icon: '🎯',
+    desc: 'Defines product or company positioning, competitive frame, and strategic narrative. Makes you stand out.',
+    fullDesc: 'Marco defines where your product sits in the market and why anyone should care. He crafts competitive frames, positioning statements, and strategic narratives that differentiate you from the noise. Category design is his specialty.',
+    triggers: ['positioning', 'competitive positioning', 'category design', 'strategic narrative', 'how should we position'],
+    handoffsFrom: ['/client-discovery'],
+    handoffsTo: ['/pricing-packaging', '/studio-brand-strategist', '/content-writer']
+  },
+  {
+    id: 'pricing-packaging',
+    name: 'Priya Revenue',
+    title: 'Pricing & Monetization Strategist',
+    cmd: '/pricing-packaging',
+    dept: 'discovery',
+    icon: '💰',
+    desc: 'Designs pricing models, packaging tiers, and monetization strategy. Figures out how you make money.',
+    fullDesc: 'Priya structures how your product makes money. She designs pricing models (freemium, usage-based, tiered), defines packaging tiers that align with customer segments, and builds the monetization strategy that funds growth.',
+    triggers: ['pricing', 'packaging', 'monetization', 'how should we price', 'pricing model', 'tiers'],
+    handoffsFrom: ['/positioning'],
+    handoffsTo: ['/gtm-strategist', '/sales-pitch']
+  },
+  {
+    id: 'gtm-strategist',
+    name: 'Grant Launchpad',
+    title: 'Go-to-Market Strategist',
+    cmd: '/gtm-strategist',
+    dept: 'discovery',
+    icon: '🚀',
+    desc: 'Builds go-to-market plans including channel strategy, launch sequencing, and growth model.',
+    fullDesc: 'Grant figures out how your product reaches customers. He builds channel strategies, designs launch sequences, creates growth models, and maps the distribution plan that turns a product into a business.',
+    triggers: ['go to market', 'GTM plan', 'launch strategy', 'growth strategy', 'how do we get customers', 'distribution'],
+    handoffsFrom: ['/pricing-packaging'],
+    handoffsTo: ['/content-writer', '/sales-pitch', '/landing-page']
+  },
+  {
+    id: 'ai-product-advisor',
+    name: 'Ada Neural',
+    title: 'AI Product Advisor',
+    cmd: '/ai-product-advisor',
+    dept: 'discovery',
+    icon: '🤖',
+    desc: 'Advises on building AI-powered products — architecture, evals, UX, pricing, and go-to-market.',
+    fullDesc: 'Ada is your AI product specialist. She advises on LLM architecture decisions, evaluation frameworks, AI-specific UX patterns, pricing AI features, and going to market with AI products. She cross-cuts every department with AI expertise.',
+    triggers: ['AI product', 'building with AI', 'AI strategy', 'evals', 'AI UX', 'LLM product', 'AI architecture'],
+    handoffsFrom: [],
+    handoffsTo: ['/product-prd', '/product-tech-spec', '/pricing-packaging']
+  },
+
+  // Product
+  {
+    id: 'product-brainstorm',
+    name: 'Braxton Ideate',
+    title: 'Product Ideation Facilitator',
+    cmd: '/product-brainstorm',
+    dept: 'product',
+    icon: '💡',
+    desc: 'Guided requirements exploration through structured dialogue. Turns fuzzy ideas into clear requirements.',
+    fullDesc: 'Braxton runs structured brainstorming sessions when you have an idea but haven\'t defined it yet. Through targeted questions and frameworks, he takes fuzzy concepts and refines them into clear user stories, constraints, and requirements ready for a PRD.',
+    triggers: ['brainstorm', 'explore this idea', 'help me think through', 'fuzzy requirements'],
+    handoffsFrom: ['/client-discovery'],
+    handoffsTo: ['/product-prd', '/product-naming']
+  },
+  {
+    id: 'product-naming',
+    name: 'Nadia Wordcraft',
+    title: 'Naming Specialist',
+    cmd: '/product-naming',
+    dept: 'product',
+    icon: '✨',
+    desc: 'Expert naming process based on David Placek\'s methodology. Names products, companies, and features.',
+    fullDesc: 'Nadia runs a rigorous naming process inspired by David Placek\'s methodology. She generates, evaluates, and stress-tests names for products, companies, and features — considering phonetics, memorability, domain availability, and semantic fit.',
+    triggers: ['name this', 'brainstorm names', 'naming process', 'what should we call it'],
+    handoffsFrom: ['/product-brainstorm'],
+    handoffsTo: ['/product-prd', '/studio-brand-strategist']
+  },
+  {
+    id: 'product-prd',
+    name: 'Petra Docwright',
+    title: 'Product Requirements Author',
+    cmd: '/product-prd',
+    dept: 'product',
+    icon: '📋',
+    desc: 'Writes product requirements documents from feature ideas or brainstorm output. The spec that drives everything.',
+    fullDesc: 'Petra takes brainstorm output, feature requests, or product ideas and formalizes them into structured PRDs. Her documents include user stories, acceptance criteria, scope boundaries, and success metrics that the whole team can align on.',
+    triggers: ['write a PRD', 'product requirements', 'feature spec', 'formalize this idea'],
+    handoffsFrom: ['/product-brainstorm', '/ai-product-advisor'],
+    handoffsTo: ['/product-tech-spec']
+  },
+  {
+    id: 'product-tech-spec',
+    name: 'Theo Architect',
+    title: 'Technical Specification Writer',
+    cmd: '/product-tech-spec',
+    dept: 'product',
+    icon: '🏗️',
+    desc: 'Writes technical specifications bridging product requirements and implementation. The blueprint for engineering.',
+    fullDesc: 'Theo bridges the gap between product and engineering. He takes PRDs and produces technical specifications covering system design, data models, API contracts, and architecture decisions that engineering can plan and build against.',
+    triggers: ['tech spec', 'technical spec', 'architecture doc', 'system design'],
+    handoffsFrom: ['/product-prd'],
+    handoffsTo: ['/engineer-plan']
+  },
+
+  // Engineering
+  {
+    id: 'engineer-plan',
+    name: 'Piper Planner',
+    title: 'Implementation Planner',
+    cmd: '/engineer-plan',
+    dept: 'engineering',
+    icon: '📐',
+    desc: 'Creates structured implementation plans using parallel research agents. Breaks specs into ordered, actionable tasks.',
+    fullDesc: 'Piper takes technical specifications and produces detailed implementation plans. She uses parallel research agents to explore the codebase, then breaks the work into ordered tasks with effort estimates, dependencies, and acceptance criteria.',
+    triggers: ['plan this', 'create a plan', 'implementation plan', 'break this down'],
+    handoffsFrom: ['/product-tech-spec'],
+    handoffsTo: ['/engineer-plan-review']
+  },
+  {
+    id: 'engineer-plan-review',
+    name: 'Rex Simplify',
+    title: 'Plan Review & Simplification',
+    cmd: '/engineer-plan-review',
+    dept: 'engineering',
+    icon: '✂️',
+    desc: 'Reviews implementation plans for overengineering, unnecessary complexity, and YAGNI violations.',
+    fullDesc: 'Rex is the team\'s complexity police. He reviews implementation plans with a ruthless eye for overengineering, premature abstraction, and YAGNI violations. His job is to make sure the plan is as simple as possible — but no simpler.',
+    triggers: ['review this plan', 'simplify the plan', 'is this overengineered', 'too complex'],
+    handoffsFrom: ['/engineer-plan'],
+    handoffsTo: ['/engineer-work']
+  },
+  {
+    id: 'engineer-work',
+    name: 'Wren Builder',
+    title: 'Implementation Engineer',
+    cmd: '/engineer-work',
+    dept: 'engineering',
+    icon: '⚒️',
+    desc: 'Executes implementation plans with git branching, progress tracking, quality checks, and PR creation.',
+    fullDesc: 'Wren is the builder. She takes approved plans and executes them task-by-task — creating branches, writing code, tracking progress, running quality checks, committing incrementally, and opening PRs when the work is ready for review.',
+    triggers: ['build this', 'implement this', 'start working', 'execute the plan'],
+    handoffsFrom: ['/engineer-plan-review'],
+    handoffsTo: ['/engineer-review']
+  },
+  {
+    id: 'engineer-review',
+    name: 'Quinn Codewise',
+    title: 'Code Review Lead',
+    cmd: '/engineer-review',
+    dept: 'engineering',
+    icon: '🔬',
+    desc: 'Comprehensive multi-agent code review with parallel specialist reviewers covering quality, patterns, and bugs.',
+    fullDesc: 'Quinn orchestrates a multi-agent code review process. She spawns parallel specialist reviewers that check for type safety, React patterns, race conditions, performance issues, security vulnerabilities, and architectural compliance — then synthesizes their findings.',
+    triggers: ['review this', 'code review', 'review my PR', 'check this code'],
+    handoffsFrom: ['/engineer-work'],
+    handoffsTo: ['/security-audit', '/knowledge-compound']
+  },
+  {
+    id: 'security-audit',
+    name: 'Sam Sentinel',
+    title: 'Security Auditor',
+    cmd: '/security-audit',
+    dept: 'engineering',
+    icon: '🛡️',
+    desc: 'Deep security audit with parallel domain-focused agents. More thorough than review-level security checks.',
+    fullDesc: 'Sam runs deep, domain-specific security audits. He spawns parallel agents focused on auth/authz, input validation, injection attacks, secrets management, and OWASP compliance. Much more thorough than the security pass in /engineer-review — use before launches.',
+    triggers: ['security audit', 'check for vulnerabilities', 'security review', 'before launch'],
+    handoffsFrom: ['/engineer-review'],
+    handoffsTo: ['/knowledge-compound']
+  },
+
+  // Design
+  {
+    id: 'studio-brand-strategist',
+    name: 'Blake Brandwell',
+    title: 'Brand Strategist',
+    cmd: '/studio-brand-strategist',
+    dept: 'design',
+    icon: '🎨',
+    desc: 'Brand strategy, positioning, brand voice, messaging framework, and competitive visual analysis.',
+    fullDesc: 'Blake defines how a brand shows up in the world. He sets brand voice, builds messaging frameworks, runs competitive visual analysis, and creates the strategic foundation that design and content teams build on.',
+    triggers: ['brand strategy', 'brand voice', 'messaging framework', 'competitive analysis', 'visual identity'],
+    handoffsFrom: ['/positioning'],
+    handoffsTo: ['/design-lead', '/content-writer']
+  },
+  {
+    id: 'design-lead',
+    name: 'Dara Directive',
+    title: 'Design Director',
+    cmd: '/design-lead',
+    dept: 'design',
+    icon: '🖌️',
+    desc: 'Bridges strategy and design — sets direction, reviews quality, and establishes design tenets.',
+    fullDesc: 'Dara translates brand strategy into design direction. She sets design tenets, reviews design quality, establishes creative direction, and makes sure every visual output is consistent with the brand\'s strategic intent.',
+    triggers: ['design review', 'design direction', 'design strategy', 'creative direction', 'design tenets'],
+    handoffsFrom: ['/studio-brand-strategist'],
+    handoffsTo: ['/design-system', '/landing-page']
+  },
+  {
+    id: 'design-system',
+    name: 'Sasha Systemize',
+    title: 'Design Systems Engineer',
+    cmd: '/design-system',
+    dept: 'design',
+    icon: '🧩',
+    desc: 'Builds and maintains design systems — tokens, components, documentation, and governance.',
+    fullDesc: 'Sasha takes design direction and systematizes it into reusable infrastructure. She builds token architectures, component libraries, documentation, and governance processes that keep design consistent at scale.',
+    triggers: ['design system', 'component library', 'design tokens', 'token architecture'],
+    handoffsFrom: ['/design-lead'],
+    handoffsTo: ['/engineer-work']
+  },
+
+  // Marketing & Sales
+  {
+    id: 'content-writer',
+    name: 'Callie Copysmith',
+    title: 'Content & Marketing Writer',
+    cmd: '/content-writer',
+    dept: 'marketing',
+    icon: '✍️',
+    desc: 'Writes marketing content — social posts, ad copy, emails, blog posts, case studies, newsletters, and more.',
+    fullDesc: 'Callie writes all customer-facing marketing content. Social media posts, ad copy, landing page text, email campaigns, blog posts, newsletters, case studies — she adapts voice and format to any channel and audience.',
+    triggers: ['write a post', 'social media copy', 'ad copy', 'email campaign', 'blog post', 'marketing copy'],
+    handoffsFrom: ['/gtm-strategist', '/studio-brand-strategist'],
+    handoffsTo: ['/landing-page']
+  },
+  {
+    id: 'landing-page',
+    name: 'Luna Landwell',
+    title: 'Landing Page Specialist',
+    cmd: '/landing-page',
+    dept: 'marketing',
+    icon: '📄',
+    desc: 'Creates high-converting landing pages or reviews existing ones for conversion optimization.',
+    fullDesc: 'Luna builds and reviews landing pages optimized for conversion. She structures hero sections, CTAs, social proof, objection handling, and page flow — whether creating from scratch or auditing an existing page for improvements.',
+    triggers: ['landing page', 'create a landing page', 'review my landing page', 'improve conversions'],
+    handoffsFrom: ['/content-writer', '/design-lead', '/gtm-strategist'],
+    handoffsTo: []
+  },
+  {
+    id: 'sales-pitch',
+    name: 'Sterling Closer',
+    title: 'Sales Pitch Architect',
+    cmd: '/sales-pitch',
+    dept: 'marketing',
+    icon: '🎤',
+    desc: 'Builds sales pitches, cold emails, demo scripts, and pitch decks using proven frameworks.',
+    fullDesc: 'Sterling crafts persuasive sales artifacts. He builds pitch decks, writes cold email sequences, creates demo scripts, and structures sales narratives using proven frameworks. His goal: get the meeting, run the demo, close the deal.',
+    triggers: ['sales pitch', 'pitch deck', 'cold email', 'demo script', 'help me sell'],
+    handoffsFrom: ['/gtm-strategist', '/pricing-packaging'],
+    handoffsTo: ['/proposal-writer']
+  },
+  {
+    id: 'proposal-writer',
+    name: 'Riley Proposal',
+    title: 'Proposal & SOW Writer',
+    cmd: '/proposal-writer',
+    dept: 'marketing',
+    icon: '📝',
+    desc: 'Writes persuasive client proposals and SOWs that close deals.',
+    fullDesc: 'Riley writes the documents that get clients to say yes. She crafts project proposals, statements of work, pricing breakdowns, and scope definitions that are clear, persuasive, and designed to close.',
+    triggers: ['write a proposal', 'client proposal', 'SOW', 'pitch to a client', 'project proposal'],
+    handoffsFrom: ['/sales-pitch'],
+    handoffsTo: ['/onboarding']
+  },
+
+  // Operations
+  {
+    id: 'onboarding',
+    name: 'Olive Onboard',
+    title: 'Project Intake Coordinator',
+    cmd: '/onboarding',
+    dept: 'operations',
+    icon: '📥',
+    desc: 'Gathers project and client context that all other skills reference. The starting point for new engagements.',
+    fullDesc: 'Olive runs the structured intake process for new projects and clients. She gathers context, asks the right questions, and saves everything to a standardized file that every other skill reads before starting their work. She\'s the first person new projects meet.',
+    triggers: ['onboarding', 'new project', 'new client', 'set up a project'],
+    handoffsFrom: ['/proposal-writer'],
+    handoffsTo: ['/client-discovery', '/product-brainstorm', '/design-lead']
+  },
+  {
+    id: 'find-skills',
+    name: 'Scout Finder',
+    title: 'Talent Acquisition',
+    cmd: '/find-skills',
+    dept: 'operations',
+    icon: '🔎',
+    desc: 'Helps discover and install new agent skills when you need capabilities the current team doesn\'t have.',
+    fullDesc: 'Scout searches for capabilities you need but don\'t have. When you ask "is there a skill for X?", Scout searches the ecosystem, evaluates options, and helps you install new team members to expand your capabilities.',
+    triggers: ['find a skill', 'is there a skill for', 'discover skills', 'install a skill'],
+    handoffsFrom: [],
+    handoffsTo: ['/bench-new-skill']
+  },
+  {
+    id: 'bench-new-skill',
+    name: 'Kit Creator',
+    title: 'Skill Builder',
+    cmd: '/bench-new-skill',
+    dept: 'operations',
+    icon: '🧪',
+    desc: 'Creates new skills for the bench-skills repo following all conventions. Grows the team.',
+    fullDesc: 'Kit builds new team members from scratch. When you need a skill that doesn\'t exist, Kit creates it — writing the SKILL.md, setting up the file structure, following all conventions, and making sure the new hire is ready for work.',
+    triggers: ['create a new skill', 'add a skill', 'new slash command', 'build a skill'],
+    handoffsFrom: ['/find-skills'],
+    handoffsTo: []
+  },
+  {
+    id: 'knowledge-compound',
+    name: 'Sage Archive',
+    title: 'Knowledge Manager',
+    cmd: '/knowledge-compound',
+    dept: 'operations',
+    icon: '📚',
+    desc: 'Documents solutions, decisions, and learnings into a searchable knowledge base. Makes work compound.',
+    fullDesc: 'Sage captures institutional knowledge. After solving a tricky bug, making an architectural decision, or completing significant work, Sage documents the solution in a searchable knowledge base so the team gets smarter over time.',
+    triggers: ['document this', 'compound this', 'save this solution', 'capture this learning'],
+    handoffsFrom: ['Any completed work'],
+    handoffsTo: []
+  },
+  {
+    id: 'visualize',
+    name: 'Viz Clearview',
+    title: 'Visual Explainer',
+    cmd: '/visualize',
+    dept: 'operations',
+    icon: '📊',
+    desc: 'Generates self-contained interactive HTML pages with diagrams, data tables, and visual explanations.',
+    fullDesc: 'Viz turns complex systems into visual, interactive explanations. She creates self-contained HTML pages with Mermaid diagrams, data tables, zoom/pan controls, and dark mode support. If it can be drawn, Viz will make it clear.',
+    triggers: ['visualize', 'create a diagram', 'draw this', 'show me visually', 'architecture diagram'],
+    handoffsFrom: [],
+    handoffsTo: []
+  }
+];
+
+const deptColors = {
+  discovery: { color: '#8b5cf6', bg: '#ede9fe', label: 'Discovery & Strategy' },
+  product:   { color: '#3b82f6', bg: '#dbeafe', label: 'Product' },
+  engineering: { color: '#22c55e', bg: '#dcfce7', label: 'Engineering' },
+  design:    { color: '#ec4899', bg: '#fce7f3', label: 'Design' },
+  marketing: { color: '#f59e0b', bg: '#fef3c7', label: 'Marketing & Sales' },
+  operations:{ color: '#14b8a6', bg: '#ccfbf1', label: 'Operations' }
+};
+
+// Dark mode dept colors
+const deptColorsDark = {
+  discovery: { bg: '#1a0f2e' },
+  product:   { bg: '#0f1a2e' },
+  engineering: { bg: '#0f2a14' },
+  design:    { bg: '#2e0f1a' },
+  marketing: { bg: '#2a1f04' },
+  operations:{ bg: '#0a2a24' }
+};
+
+// ── Render Employee Cards ──
+function renderCards(dept) {
+  const grid = document.getElementById('employeeGrid');
+  grid.innerHTML = '';
+  const filtered = dept === 'all' ? employees : employees.filter(e => e.dept === dept);
+
+  filtered.forEach(emp => {
+    const dc = deptColors[emp.dept];
+    const card = document.createElement('div');
+    card.className = 'employee-card';
+    card.setAttribute('data-dept', emp.dept);
+    card.onclick = () => openModal(emp);
+
+    card.innerHTML = `
+      <div class="dept-stripe" style="background: ${dc.color}"></div>
+      <div class="card-body">
+        <div class="employee-header">
+          <div class="avatar" style="background: ${dc.bg}">${emp.icon}</div>
+          <div class="employee-info">
+            <h3>${emp.name}</h3>
+            <div class="employee-title">${emp.title}</div>
+            <code class="slash-cmd">${emp.cmd}</code>
+          </div>
+        </div>
+        <div class="job-desc">${emp.desc}</div>
+        <div class="triggers">
+          ${emp.triggers.slice(0, 4).map(t => `<span class="trigger-tag">"${t}"</span>`).join('')}
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+}
+
+// ── Filter ──
+function filterDept(dept) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.filter-btn[data-dept="${dept}"]`).classList.add('active');
+  renderCards(dept);
+}
+
+// ── Modal ──
+function openModal(emp) {
+  const dc = deptColors[emp.dept];
+  const overlay = document.getElementById('modalOverlay');
+  const modal = document.getElementById('modalCard');
+
+  modal.innerHTML = `
+    <div class="dept-stripe" style="background: ${dc.color}"></div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-body">
+      <div class="employee-header">
+        <div class="avatar" style="background: ${dc.bg}; width:64px; height:64px; font-size:30px; border-radius:16px; display:flex; align-items:center; justify-content:center; border: 1px solid var(--border);">${emp.icon}</div>
+        <div class="employee-info">
+          <h2>${emp.name}</h2>
+          <div class="employee-title" style="font-size:13px; color:var(--text-secondary)">${emp.title}</div>
+          <code class="slash-cmd">${emp.cmd}</code>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4>Department</h4>
+        <span class="dept-badge" style="background: ${dc.bg}; color: ${dc.color}; border: 1px solid ${dc.color}40;">${dc.label}</span>
+      </div>
+
+      <div class="modal-section">
+        <h4>Job Description</h4>
+        <p>${emp.fullDesc}</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>Ask Me When You Say...</h4>
+        <ul>
+          ${emp.triggers.map(t => `<li>"${t}"</li>`).join('')}
+        </ul>
+      </div>
+
+      ${emp.handoffsFrom.length > 0 ? `
+      <div class="modal-section">
+        <h4>Receives Work From</h4>
+        <div class="modal-handoffs">
+          ${emp.handoffsFrom.map(h => `<span class="handoff-tag">${h}</span>`).join('')}
+        </div>
+      </div>` : ''}
+
+      ${emp.handoffsTo.length > 0 ? `
+      <div class="modal-section">
+        <h4>Hands Off To</h4>
+        <div class="modal-handoffs">
+          ${emp.handoffsTo.map(h => `<span class="handoff-tag">${h}</span>`).join('')}
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// Initial render
+renderCards('all');
+
+// ── Mermaid Init ──
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'neutral',
+  flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+  themeVariables: {
+    primaryColor: '#e8f0e0',
+    primaryBorderColor: '#789a60',
+    primaryTextColor: '#18181b',
+    lineColor: '#a1a1aa',
+    secondaryColor: '#f4f4f5',
+    tertiaryColor: '#fafafa',
+    fontSize: '13px'
+  }
+});
+
+// ── Theme Toggle ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+
+  document.querySelectorAll('.mermaid').forEach(el => {
+    el.removeAttribute('data-processed');
+  });
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: next === 'dark' ? 'dark' : 'neutral',
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
+    themeVariables: next === 'dark' ? {
+      primaryColor: '#2a3a20',
+      primaryBorderColor: '#789a60',
+      primaryTextColor: '#e4e4e7',
+      lineColor: '#555',
+      secondaryColor: '#1f1f1f',
+      tertiaryColor: '#0f0f0f',
+      fontSize: '13px'
+    } : {
+      primaryColor: '#e8f0e0',
+      primaryBorderColor: '#789a60',
+      primaryTextColor: '#18181b',
+      lineColor: '#a1a1aa',
+      secondaryColor: '#f4f4f5',
+      tertiaryColor: '#fafafa',
+      fontSize: '13px'
+    }
+  });
+  mermaid.run();
+}
+
+const saved = localStorage.getItem('theme');
+if (saved === 'dark') {
+  document.documentElement.setAttribute('data-theme', 'dark');
+}
+
+// ── Sidebar Navigation ──
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const target = link.getAttribute('data-target');
+    if (!target) return;
+
+    const el = document.getElementById(target);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+
+    document.querySelector('.sidebar').classList.remove('open');
+  });
+});
+
+// ── Scroll Spy ──
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.nav-link[data-target]');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.nav-link[data-target="${entry.target.id}"]`);
+      if (match) match.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// ── Zoom & Pan ──
+function initZoom() {
+  document.querySelectorAll('.diagram-card').forEach(card => {
+    const header = card.querySelector('.card-header');
+    const body = card.querySelector('.diagram-body');
+    if (!header || !body) return;
+
+    const inner = document.createElement('div');
+    inner.className = 'zoom-inner';
+    while (body.firstChild) inner.appendChild(body.firstChild);
+    body.appendChild(inner);
+
+    const controls = document.createElement('div');
+    controls.className = 'zoom-controls';
+    controls.innerHTML = `
+      <button class="zoom-btn" data-action="out" title="Zoom out">&#8722;</button>
+      <span class="zoom-level">100%</span>
+      <button class="zoom-btn" data-action="in" title="Zoom in">&#43;</button>
+      <button class="zoom-btn" data-action="reset" title="Reset" style="margin-left:4px;font-size:11px;">&#8634;</button>
+    `;
+    header.appendChild(controls);
+
+    const levelEl = controls.querySelector('.zoom-level');
+
+    let scale = 1;
+    let panX = 0, panY = 0;
+    const MIN = 0.3, MAX = 3, STEP = 0.15;
+
+    function applyTransform(smooth) {
+      if (!smooth) inner.classList.add('no-transition');
+      else inner.classList.remove('no-transition');
+      inner.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+      levelEl.textContent = Math.round(scale * 100) + '%';
+    }
+
+    function zoom(delta, cx, cy) {
+      const prev = scale;
+      scale = Math.min(MAX, Math.max(MIN, scale + delta));
+      if (scale === prev) return;
+
+      if (cx !== undefined && cy !== undefined) {
+        const rect = body.getBoundingClientRect();
+        const ox = cx - rect.left - rect.width / 2;
+        const oy = cy - rect.top - rect.height / 2;
+        const ratio = 1 - scale / prev;
+        panX += (ox - panX) * ratio;
+        panY += (oy - panY) * ratio;
+      }
+
+      applyTransform(true);
+    }
+
+    controls.addEventListener('click', e => {
+      const btn = e.target.closest('.zoom-btn');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      if (action === 'in') zoom(STEP);
+      else if (action === 'out') zoom(-STEP);
+      else if (action === 'reset') {
+        scale = 1; panX = 0; panY = 0;
+        applyTransform(true);
+      }
+    });
+
+    body.addEventListener('wheel', e => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -STEP : STEP;
+      zoom(delta, e.clientX, e.clientY);
+    }, { passive: false });
+
+    body.addEventListener('wheel', e => {
+      if (e.ctrlKey || e.metaKey) return;
+      if (scale === 1 && !e.shiftKey) return;
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? -STEP * 0.5 : STEP * 0.5;
+      zoom(delta, e.clientX, e.clientY);
+    }, { passive: false });
+
+    let dragging = false, startX, startY, startPanX, startPanY;
+
+    body.addEventListener('mousedown', e => {
+      if (e.button !== 0) return;
+      dragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      startPanX = panX;
+      startPanY = panY;
+      body.classList.add('is-panning');
+      e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      panX = startPanX + (e.clientX - startX);
+      panY = startPanY + (e.clientY - startY);
+      applyTransform(false);
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      body.classList.remove('is-panning');
+    });
+
+    body.addEventListener('dblclick', () => {
+      scale = 1; panX = 0; panY = 0;
+      applyTransform(true);
+    });
+  });
+}
+
+setTimeout(initZoom, 500);
+</script>
+</body>
+</html>
