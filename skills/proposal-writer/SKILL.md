@@ -180,5 +180,5 @@ Save to: `projects/<project>/proposal.md`
 ## Next Steps
 
 - Proposal accepted? → `/onboarding` to kick off the project
-- Need to refine pricing? → `/pricing-packaging`
+- Need to refine pricing? → `/gtm-pricing`
 - Need to build the pitch for an in-person presentation? → `/sales-pitch`

@@ -149,7 +149,7 @@ If no project context exists, present findings inline.
 
 ## Next Steps
 
-- Have a target segment? → `/positioning` to define how you show up
-- Need pricing? → `/pricing-packaging` to design monetization
-- Ready for GTM? → `/gtm-strategist` to plan your go-to-market
+- Have a target segment? → `/gtm-positioning` to define how you show up
+- Need pricing? → `/gtm-pricing` to design monetization
+- Ready for GTM? → `/gtm-strategy` to plan your go-to-market
 - Need to formalize? → `/product-prd` to write the requirements doc

@@ -24,7 +24,7 @@ Check for existing context:
 3. Read `projects/<project>/discovery.md` for customer insight
 4. Read `projects/<project>/gtm-plan.md` for market context
 
-**Positioning is critical input.** If no positioning exists, flag it: "A pitch without positioning is guesswork. Consider running `/positioning` first."
+**Positioning is critical input.** If no positioning exists, flag it: "A pitch without positioning is guesswork. Consider running `/gtm-positioning` first."
 
 ## Process
 
@@ -188,5 +188,5 @@ Save to: `projects/<project>/pitch.md`
 ## Next Steps
 
 - Need to formalize the deal? → `/proposal-writer` to write the proposal
-- Need pricing for the pitch? → `/pricing-packaging`
-- Need the full brand context? → `/studio-brand-strategist`
+- Need pricing for the pitch? → `/gtm-pricing`
+- Need the full brand context? → `/brand-strategist`

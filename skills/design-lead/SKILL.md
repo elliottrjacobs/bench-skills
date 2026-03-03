@@ -50,7 +50,7 @@ Based on the need, gather relevant context:
 
 **For setting direction:**
 - What's the product? Who's it for?
-- What are the brand personality attributes? (If from `/positioning`: which 2 Aaker dimensions?)
+- What are the brand personality attributes? (If from `/gtm-positioning`: which 2 Aaker dimensions?)
 - What products do you admire? Why? (This reveals taste preferences)
 - What do you want to be known for? What do you want to avoid?
 - What's the competitive design landscape? (Are competitors minimal, maximalist, playful, serious?)
@@ -172,7 +172,7 @@ Save to: `projects/<project>/design-direction.md`
 
 ## Next Steps
 
-- Need the full brand? → `/studio-brand-strategist`
+- Need the full brand? → `/brand-strategist`
 - Need a name? → `/product-naming`
 - Ready to build? → `/engineer-plan` to plan implementation
 - Need a proposal with design direction? → `/proposal-writer`

@@ -23,7 +23,7 @@ Check for existing context:
 3. Read `projects/<project>/discovery.md` — customer JTBD, struggling moments, desired outcomes
 4. Read `projects/<project>/gtm-plan.md` — channel strategy and audience priorities
 
-**Brand strategy is critical input.** If no brand strategy exists, flag it: "Writing without a defined voice is guesswork. Consider running `/studio-brand-strategist` first — or tell me about the brand voice and I'll work with what we have."
+**Brand strategy is critical input.** If no brand strategy exists, flag it: "Writing without a defined voice is guesswork. Consider running `/brand-strategist` first — or tell me about the brand voice and I'll work with what we have."
 
 If brand strategy exists, extract and apply throughout:
 - Voice do's and don'ts
@@ -173,8 +173,9 @@ Save to: `projects/<project>/content/`
 
 ## Next Steps
 
-- Need brand voice and messaging first? → `/studio-brand-strategist` to define the brand
-- Need positioning to inform the content? → `/positioning` to define your market position
+- Need brand voice and messaging first? → `/brand-strategist` to define the brand
+- Need positioning to inform the content? → `/gtm-positioning` to define your market position
 - Need to understand the customer? → `/client-discovery` for JTBD research
 - Need a sales artifact instead? → `/sales-pitch` for pitches, cold emails, demo scripts
-- Need to plan a content strategy? → `/gtm-strategist` for channel and launch planning
+- Need to plan a content strategy? → `/gtm-strategy` for channel and launch planning
+- Need content organized by funnel stage? → `/gtm-marketing` for content strategy and planning
